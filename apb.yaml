@@ -1,0 +1,14 @@
+---
+- name : "d image & edit depl"
+  hosts: "127.0.0.1"
+  tasks:
+    - name: "remove old image"
+      shell : "docker rmi -f  $(docker images | grep sab22 | awk '{ print $3 }')"
+    - name: "rm"
+      command: "rm -rf /tmp/arg3" 
+    - name: "git"
+      command: "git clone git@github.com:FASTO96/arg3.git /tmp/arg3" 
+    - name: "edit"
+      shell: "sed -i  's/php4.*/php4:{{v}}/g' /tmp/arg3/yaml/and.yaml"
+    - name: "push"
+      shell: "cd /tmp/arg3/ ;git add . ; git commit -m '{{v}}' ;git  push"
